@@ -3,7 +3,7 @@
  * Copyright  : Kyle Harper
  * License    : Follows same licensing as the lz4.c/lz4.h program at any given time.  Currently, BSD 2.
  * Description: Example program to demonstrate the basic usage of the compress/decompress functions within lz4.c/lz4.h.
- *              The functions you'll likely want are LZ4_compress_default and LZ4_decompress_safe.  Both of these are documented in
+ *              The functions you'll likely want are LZ4_compress_default and ios_safe_LZ4_decompress_safe.  Both of these are documented in
  *              the lz4.h header file; I recommend reading them.
  */
 
@@ -69,9 +69,9 @@ int main(void) {
   char *new_src = malloc(src_size);
   if (new_src == NULL)
     run_screaming("Failed to allocate memory for *new_src.", 1);
-  // The LZ4_decompress_safe function needs to know where the compressed data is, how many bytes long it is, where the new_src
+  // The ios_safe_LZ4_decompress_safe function needs to know where the compressed data is, how many bytes long it is, where the new_src
   // memory location is, and how large the new_src (uncompressed) output will be.  Again, save the return_value.
-  return_value = LZ4_decompress_safe(compressed_data, new_src, compressed_data_size, src_size);
+  return_value = ios_safe_LZ4_decompress_safe(compressed_data, new_src, compressed_data_size, src_size);
   if (return_value < 0)
     run_screaming("A negative result from LZ4_decompress_fast indicates a failure trying to decompress the data.  See exit code (echo $?) for value returned.", return_value);
   if (return_value == 0)

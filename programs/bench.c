@@ -290,9 +290,9 @@ static int BMK_benchMem(const void* srcBuffer, size_t srcSize,
                 do {
                     U32 blockNb;
                     for (blockNb=0; blockNb<nbBlocks; blockNb++) {
-                        size_t const regenSize = LZ4_decompress_safe(blockTable[blockNb].cPtr, blockTable[blockNb].resPtr, (int)blockTable[blockNb].cSize, (int)blockTable[blockNb].srcSize);
+                        size_t const regenSize = ios_safe_LZ4_decompress_safe(blockTable[blockNb].cPtr, blockTable[blockNb].resPtr, (int)blockTable[blockNb].cSize, (int)blockTable[blockNb].srcSize);
                         if (LZ4_isError(regenSize)) {
-                            DISPLAY("LZ4_decompress_safe() failed on block %u  \n", blockNb);
+                            DISPLAY("ios_safe_LZ4_decompress_safe() failed on block %u  \n", blockNb);
                             clockLoop = 0;   /* force immediate test end */
                             break;
                         }

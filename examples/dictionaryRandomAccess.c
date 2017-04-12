@@ -155,7 +155,7 @@ void test_decompress(FILE* outFp, FILE* inpFp, void *dict, int dictSize, int off
         /* Load the dictionary */
         LZ4_setStreamDecode(lz4StreamDecode, dict, dictSize);
         {
-            const int decBytes = LZ4_decompress_safe_continue(
+            const int decBytes = ios_safe_LZ4_decompress_safe_continue(
                 lz4StreamDecode, cmpBuf, decBuf, cmpBytes, BLOCK_BYTES);
             if(decBytes <= 0) { exit(5); }
             {

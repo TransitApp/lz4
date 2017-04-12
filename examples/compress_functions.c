@@ -30,10 +30,10 @@
  *                wrapper function because this function isn't exposed with lz4.h.
  *
  *              The call stack for decompression functions is shallow.  There are 2 options:
- *                LZ4_decompress_safe  ||  LZ4_decompress_fast
+ *                ios_safe_LZ4_decompress_safe  ||  LZ4_decompress_fast
  *                  LZ4_decompress_generic
  *
- *               LZ4_decompress_safe
+ *               ios_safe_LZ4_decompress_safe
  *                 This is the recommended function for decompressing data.  It is considered safe because the caller specifies
  *                 both the size of the compresssed buffer to read as well as the maximum size of the output (decompressed) buffer
  *                 instead of just the latter.
@@ -46,7 +46,7 @@
  *                 exposed for anyone using lz4.h to utilize.
  *
  *               Special Note About Decompression:
- *               Using the LZ4_decompress_safe() function protects against malicious (user) input.  If you are using data from a
+ *               Using the ios_safe_LZ4_decompress_safe() function protects against malicious (user) input.  If you are using data from a
  *               trusted source, or if your program is the producer (P) as well as its consumer (C) in a PC or MPMC setup, you can
  *               safely use the LZ4_decompress_fast function
  */
@@ -186,16 +186,16 @@ uint64_t bench(
 //      break;
 
     case ID__LZ4_DECOMPRESS_SAFE:
-      printf("Starting benchmark for function: LZ4_decompress_safe()\n");
+      printf("Starting benchmark for function: ios_safe_LZ4_decompress_safe()\n");
       for(int junk=0; junk<warm_up; junk++)
-        rv = LZ4_decompress_safe(src, dst, comp_size, src_size);
+        rv = ios_safe_LZ4_decompress_safe(src, dst, comp_size, src_size);
       if (rv < 1)
-        run_screaming("Couldn't run LZ4_decompress_safe()... error code received is in exit code.", rv);
+        run_screaming("Couldn't run ios_safe_LZ4_decompress_safe()... error code received is in exit code.", rv);
       if (memcmp(known_good_dst, dst, src_size) != 0)
         run_screaming("According to memcmp(), the compressed dst we got doesn't match the known_good_dst... ruh roh.", 1);
       clock_gettime(CLOCK_MONOTONIC, &start);
       for (int i=1; i<=iterations; i++)
-        LZ4_decompress_safe(src, dst, comp_size, src_size);
+        ios_safe_LZ4_decompress_safe(src, dst, comp_size, src_size);
       break;
 
     case ID__LZ4_DECOMPRESS_FAST:
@@ -347,14 +347,14 @@ int main(int argc, char **argv) {
   printf(format, "Normal Text", "LZ4_compress_fast()",          (double)time_taken__fast          / BILLION, (int)(iterations / ((double)time_taken__fast          /BILLION)), time_taken__fast          / iterations, (double)time_taken__fast          * 100 / time_taken__default);
   printf(format, "Normal Text", "LZ4_compress_fast_extState()", (double)time_taken__fast_extstate / BILLION, (int)(iterations / ((double)time_taken__fast_extstate /BILLION)), time_taken__fast_extstate / iterations, (double)time_taken__fast_extstate * 100 / time_taken__default);
   //printf(format, "Normal Text", "LZ4_compress_generic()",       (double)time_taken__generic       / BILLION, (int)(iterations / ((double)time_taken__generic       /BILLION)), time_taken__generic       / iterations, (double)time_taken__generic       * 100 / time_taken__default);
-  printf(format, "Normal Text", "LZ4_decompress_safe()",        (double)time_taken__decomp_safe   / BILLION, (int)(iterations / ((double)time_taken__decomp_safe   /BILLION)), time_taken__decomp_safe   / iterations, (double)time_taken__decomp_safe   * 100 / time_taken__default);
+  printf(format, "Normal Text", "ios_safe_LZ4_decompress_safe()",        (double)time_taken__decomp_safe   / BILLION, (int)(iterations / ((double)time_taken__decomp_safe   /BILLION)), time_taken__decomp_safe   / iterations, (double)time_taken__decomp_safe   * 100 / time_taken__default);
   printf(format, "Normal Text", "LZ4_decompress_fast()",        (double)time_taken__decomp_fast   / BILLION, (int)(iterations / ((double)time_taken__decomp_fast   /BILLION)), time_taken__decomp_fast   / iterations, (double)time_taken__decomp_fast   * 100 / time_taken__default);
   printf(header_format, "", "", "", "", "", "");
   printf(format, "Compressible", "LZ4_compress_default()",       (double)time_taken_hc__default       / BILLION, (int)(iterations / ((double)time_taken_hc__default       /BILLION)), time_taken_hc__default       / iterations, (double)time_taken_hc__default       * 100 / time_taken_hc__default);
   printf(format, "Compressible", "LZ4_compress_fast()",          (double)time_taken_hc__fast          / BILLION, (int)(iterations / ((double)time_taken_hc__fast          /BILLION)), time_taken_hc__fast          / iterations, (double)time_taken_hc__fast          * 100 / time_taken_hc__default);
   printf(format, "Compressible", "LZ4_compress_fast_extState()", (double)time_taken_hc__fast_extstate / BILLION, (int)(iterations / ((double)time_taken_hc__fast_extstate /BILLION)), time_taken_hc__fast_extstate / iterations, (double)time_taken_hc__fast_extstate * 100 / time_taken_hc__default);
   //printf(format, "Compressible", "LZ4_compress_generic()",       (double)time_taken_hc__generic       / BILLION, (int)(iterations / ((double)time_taken_hc__generic       /BILLION)), time_taken_hc__generic       / iterations, (double)time_taken_hc__generic       * 100 / time_taken_hc__default);
-  printf(format, "Compressible", "LZ4_decompress_safe()",        (double)time_taken_hc__decomp_safe   / BILLION, (int)(iterations / ((double)time_taken_hc__decomp_safe   /BILLION)), time_taken_hc__decomp_safe   / iterations, (double)time_taken_hc__decomp_safe   * 100 / time_taken_hc__default);
+  printf(format, "Compressible", "ios_safe_LZ4_decompress_safe()",        (double)time_taken_hc__decomp_safe   / BILLION, (int)(iterations / ((double)time_taken_hc__decomp_safe   /BILLION)), time_taken_hc__decomp_safe   / iterations, (double)time_taken_hc__decomp_safe   * 100 / time_taken_hc__default);
   printf(format, "Compressible", "LZ4_decompress_fast()",        (double)time_taken_hc__decomp_fast   / BILLION, (int)(iterations / ((double)time_taken_hc__decomp_fast   /BILLION)), time_taken_hc__decomp_fast   / iterations, (double)time_taken_hc__decomp_fast   * 100 / time_taken_hc__default);
   printf("%s", separator);
   printf("\n");

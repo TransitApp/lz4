@@ -75,7 +75,7 @@
               or 0 if compression fails 
 </p></pre><BR>
 
-<pre><b>int LZ4_decompress_safe (const char* source, char* dest, int compressedSize, int maxDecompressedSize);
+<pre><b>int ios_safe_LZ4_decompress_safe (const char* source, char* dest, int compressedSize, int maxDecompressedSize);
 </b><p>    compressedSize : is the precise full size of the compressed block.
     maxDecompressedSize : is the size of destination buffer, which must be already allocated.
     return : the number of bytes decompressed into destination buffer (necessarily <= maxDecompressedSize)
@@ -130,12 +130,12 @@ int LZ4_compress_fast_extState (void* state, const char* source, char* dest, int
              If the source stream is detected malformed, the function will stop decoding and return a negative result.
              Destination buffer must be already allocated. Its size must be a minimum of 'originalSize' bytes.
     note : This function fully respect memory boundaries for properly formed compressed data.
-           It is a bit faster than LZ4_decompress_safe().
+           It is a bit faster than ios_safe_LZ4_decompress_safe().
            However, it does not provide any protection against intentionally modified data stream (malicious input).
            Use this function in trusted environment only (data to decode comes from a trusted source).
 </p></pre><BR>
 
-<pre><b>int LZ4_decompress_safe_partial (const char* source, char* dest, int compressedSize, int targetOutputSize, int maxDecompressedSize);
+<pre><b>int ios_safe_LZ4_decompress_safe_partial (const char* source, char* dest, int compressedSize, int targetOutputSize, int maxDecompressedSize);
 </b><p>    This function decompress a compressed block of size 'compressedSize' at position 'source'
     into destination buffer 'dest' of size 'maxDecompressedSize'.
     The function tries to stop decompressing operation as soon as 'targetOutputSize' has been reached,
@@ -203,7 +203,7 @@ int                 LZ4_freeStreamDecode (LZ4_streamDecode_t* LZ4_stream);
  
 </p></pre><BR>
 
-<pre><b>int LZ4_decompress_safe_continue (LZ4_streamDecode_t* LZ4_streamDecode, const char* source, char* dest, int compressedSize, int maxDecompressedSize);
+<pre><b>int ios_safe_LZ4_decompress_safe_continue (LZ4_streamDecode_t* LZ4_streamDecode, const char* source, char* dest, int compressedSize, int maxDecompressedSize);
 int LZ4_decompress_fast_continue (LZ4_streamDecode_t* LZ4_streamDecode, const char* source, char* dest, int originalSize);
 </b><p>    These decoding functions allow decompression of multiple blocks in "streaming" mode.
     Previously decoded blocks *must* remain available at the memory position where they were decoded (up to 64 KB)
@@ -221,7 +221,7 @@ int LZ4_decompress_fast_continue (LZ4_streamDecode_t* LZ4_streamDecode, const ch
     and indicate where it is saved using LZ4_setStreamDecode()
 </p></pre><BR>
 
-<pre><b>int LZ4_decompress_safe_usingDict (const char* source, char* dest, int compressedSize, int maxDecompressedSize, const char* dictStart, int dictSize);
+<pre><b>int ios_safe_ios_safe_LZ4_decompress_safe_usingDict (const char* source, char* dest, int compressedSize, int maxDecompressedSize, const char* dictStart, int dictSize);
 int LZ4_decompress_fast_usingDict (const char* source, char* dest, int originalSize, const char* dictStart, int dictSize);
 </b><p>  These decoding functions work the same as
   a combination of LZ4_setStreamDecode() followed by LZ4_decompress_*_continue()

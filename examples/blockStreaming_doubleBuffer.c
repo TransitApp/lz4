@@ -99,7 +99,7 @@ void test_decompress(FILE* outFp, FILE* inpFp)
 
         {
             char* const decPtr = decBuf[decBufIndex];
-            const int decBytes = LZ4_decompress_safe_continue(
+            const int decBytes = ios_safe_LZ4_decompress_safe_continue(
                 lz4StreamDecode, cmpBuf, decPtr, cmpBytes, BLOCK_BYTES);
             if(decBytes <= 0) {
                 break;

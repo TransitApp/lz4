@@ -104,7 +104,7 @@ static void test_decompress(
 
         {
             char* const decPtr = &decBuf[decOffset];
-            const int decBytes = LZ4_decompress_safe_continue(
+            const int decBytes = ios_safe_LZ4_decompress_safe_continue(
                 lz4StreamDecode, cmpBuf, decPtr, cmpBytes, (int) messageMaxBytes);
             if (decBytes <= 0) break;
             write_bin(outFp, decPtr, decBytes);

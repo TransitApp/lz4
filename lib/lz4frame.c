@@ -964,7 +964,7 @@ LZ4F_errorCode_t LZ4F_getFrameInfo(LZ4F_dctx* dctxPtr, LZ4F_frameInfo_t* frameIn
 static int LZ4F_decompress_safe (const char* source, char* dest, int compressedSize, int maxDecompressedSize, const char* dictStart, int dictSize)
 {
     (void)dictStart; (void)dictSize;
-    return LZ4_decompress_safe (source, dest, compressedSize, maxDecompressedSize);
+    return ios_safe_LZ4_decompress_safe (source, dest, compressedSize, maxDecompressedSize);
 }
 
 
@@ -1236,7 +1236,7 @@ size_t LZ4F_decompress(LZ4F_dctx* dctxPtr,
                 int decodedSize;
 
                 if (dctxPtr->frameInfo.blockMode == LZ4F_blockLinked)
-                    decoder = LZ4_decompress_safe_usingDict;
+                    decoder = ios_safe_ios_safe_LZ4_decompress_safe_usingDict;
                 else
                     decoder = LZ4F_decompress_safe;
 
@@ -1260,7 +1260,7 @@ size_t LZ4F_decompress(LZ4F_dctx* dctxPtr,
                 int decodedSize;
 
                 if (dctxPtr->frameInfo.blockMode == LZ4F_blockLinked)
-                    decoder = LZ4_decompress_safe_usingDict;
+                    decoder = ios_safe_ios_safe_LZ4_decompress_safe_usingDict;
                 else
                     decoder = LZ4F_decompress_safe;
 

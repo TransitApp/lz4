@@ -713,7 +713,7 @@ static unsigned long long LZ4IO_decodeLegacyStream(FILE* finput, FILE* foutput)
           if (sizeCheck!=blockSize) EXM_THROW(52, "Read error : cannot access compressed block !"); }
 
         /* Decode Block */
-        {   int const decodeSize = LZ4_decompress_safe(in_buff, out_buff, blockSize, LEGACY_BLOCKSIZE);
+        {   int const decodeSize = ios_safe_LZ4_decompress_safe(in_buff, out_buff, blockSize, LEGACY_BLOCKSIZE);
             if (decodeSize < 0) EXM_THROW(53, "Decoding Failed ! Corrupted input detected !");
             streamSize += decodeSize;
             /* Write Block */

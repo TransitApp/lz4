@@ -269,27 +269,27 @@ static int local_LZ4_decompress_fast_usingDict(const char* in, char* out, int in
     return outSize;
 }
 
-static int local_LZ4_decompress_safe_usingDict(const char* in, char* out, int inSize, int outSize)
+static int local_ios_safe_ios_safe_LZ4_decompress_safe_usingDict(const char* in, char* out, int inSize, int outSize)
 {
     (void)inSize;
-    LZ4_decompress_safe_usingDict(in, out, inSize, outSize, out - 65536, 65536);
+    ios_safe_ios_safe_LZ4_decompress_safe_usingDict(in, out, inSize, outSize, out - 65536, 65536);
     return outSize;
 }
 
 #ifndef LZ4_DLL_IMPORT
-extern int LZ4_decompress_safe_forceExtDict(const char* in, char* out, int inSize, int outSize, const char* dict, int dictSize);
+extern int ios_safe_LZ4_decompress_safe_forceExtDict(const char* in, char* out, int inSize, int outSize, const char* dict, int dictSize);
 
-static int local_LZ4_decompress_safe_forceExtDict(const char* in, char* out, int inSize, int outSize)
+static int local_ios_safe_LZ4_decompress_safe_forceExtDict(const char* in, char* out, int inSize, int outSize)
 {
     (void)inSize;
-    LZ4_decompress_safe_forceExtDict(in, out, inSize, outSize, out - 65536, 65536);
+    ios_safe_LZ4_decompress_safe_forceExtDict(in, out, inSize, outSize, out - 65536, 65536);
     return outSize;
 }
 #endif
 
-static int local_LZ4_decompress_safe_partial(const char* in, char* out, int inSize, int outSize)
+static int local_ios_safe_LZ4_decompress_safe_partial(const char* in, char* out, int inSize, int outSize)
 {
-    return LZ4_decompress_safe_partial(in, out, inSize, outSize - 5, outSize);
+    return ios_safe_LZ4_decompress_safe_partial(in, out, inSize, outSize - 5, outSize);
 }
 
 
@@ -519,11 +519,11 @@ int fullSpeedBench(const char** fileNamesTable, int nbFiles)
             case 0: DISPLAY("Decompression functions : \n"); continue;
             case 1: decompressionFunction = local_LZ4_decompress_fast; dName = "LZ4_decompress_fast"; break;
             case 3: decompressionFunction = local_LZ4_decompress_fast_usingDict; dName = "LZ4_decompress_fast_usingDict"; break;
-            case 4: decompressionFunction = LZ4_decompress_safe; dName = "LZ4_decompress_safe"; break;
-            case 6: decompressionFunction = local_LZ4_decompress_safe_usingDict; dName = "LZ4_decompress_safe_usingDict"; break;
-            case 7: decompressionFunction = local_LZ4_decompress_safe_partial; dName = "LZ4_decompress_safe_partial"; break;
+            case 4: decompressionFunction = ios_safe_LZ4_decompress_safe; dName = "ios_safe_LZ4_decompress_safe"; break;
+            case 6: decompressionFunction = local_ios_safe_ios_safe_LZ4_decompress_safe_usingDict; dName = "ios_safe_ios_safe_LZ4_decompress_safe_usingDict"; break;
+            case 7: decompressionFunction = local_ios_safe_LZ4_decompress_safe_partial; dName = "ios_safe_LZ4_decompress_safe_partial"; break;
 #ifndef LZ4_DLL_IMPORT
-			case 8: decompressionFunction = local_LZ4_decompress_safe_forceExtDict; dName = "LZ4_decompress_safe_forceExtDict"; break;
+			case 8: decompressionFunction = local_ios_safe_LZ4_decompress_safe_forceExtDict; dName = "ios_safe_LZ4_decompress_safe_forceExtDict"; break;
 #endif
 			case 9: decompressionFunction = local_LZ4F_decompress; dName = "LZ4F_decompress";
                     errorCode = LZ4F_compressFrame(compressed_buff, compressedBuffSize, orig_buff, benchedSize, NULL);
